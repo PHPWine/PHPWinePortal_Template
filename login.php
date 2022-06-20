@@ -6,6 +6,27 @@
   use \PHPWineVanillaFlavour\Plugins\PHPCrud\Crud\Vanilla;
 
   $portal = new class {
+
+         
+    /**
+    * @var string 
+    * @property string $username 
+    * Defined return username  
+    * HTML field 
+    * @since PHPWine v1.4
+    * @since 06.19.2022
+    **/
+    private ?string $username;
+
+    /**
+    * @var string 
+    * @property string $username 
+    * Defined return username  
+    * HTML field 
+    * @since PHPWine v1.4
+    * @since 06.19.2022
+    **/
+    private ?string $password;
         
     /**
     * @var string 
@@ -104,18 +125,18 @@
          * @since 04.06.21
          * @since v1.0
          **/ 
-         $un           = VALIDATE::$DATAFORM = ["username","Enter username or email or mobile"];
-         $username     = VALIDATE::HASCONTAINS($un);  
-         $this->err_username = VALIDATE::ERROR($username, $un);
+         $un                 = VALIDATE::$DATAFORM = ["username","Enter username or email or mobile"];
+         $this->username     = VALIDATE::HASCONTAINS($un);  
+         $this->err_username = VALIDATE::ERROR($this->username, $un);
         
         /**
          * Defined Check if password has contains
          * @since 04.06.21
          * @since v1.0
          **/ 
-         $pw           = VALIDATE::$DATAFORM = ["password","Please enter valid associated password."];
-         $password     = VALIDATE::HASCONTAINS($pw);  
-         $this->err_password = VALIDATE::ERROR($password, $pw);
+         $pw                 = VALIDATE::$DATAFORM = ["password","Please enter valid associated password."];
+         $this->password     = VALIDATE::HASCONTAINS($pw);  
+         $this->err_password = VALIDATE::ERROR($this->password, $pw);
         
         /**
          * Defined Default|CaseSensitive = ["username","email","mobile","password"...etc...]
@@ -126,9 +147,9 @@
          [   
             
              'QUERY_STATEMENT'         => AUTH::CHECKQUERY('users',['username','email','mobile','password','id','created_at'])
-            ,'USERNAME_HASCONTAINS'    => $username 
+            ,'USERNAME_HASCONTAINS'    => $this->username 
             ,'USERNAME_ERROR'          => $this->err_username
-            ,'PASSWORD_HASCONTAINS'    => $password
+            ,'PASSWORD_HASCONTAINS'    => $this->password
             ,'PASSWORD_ERROR'          => $this->err_password
             ,'NOTEXIST_CREDENTIAL'     => "USERNAME OR PASSWORD IS NOT ACCOSIATED WITH OUR SYSTEM" // email and password not exist to system
             ,'NOTASSOCIATED_CREDENTIAL'=> "INVALID CREDENTIALS ! NOT YET ACCOSIATED WITH OUR SYSTEM!" // either password/mobile/email/username is not assciated to system
@@ -186,7 +207,7 @@
                    'id'    => 'id-username',
                    'class' => 'username',
                    'name'  => 'username',
-                   'value' => ((isset($_COOKIE['username'])) ? $_COOKIE['username'] : ($username?? '') )
+                   'value' => ((isset($_COOKIE['username'])) ? $_COOKIE['username'] : ($this->username?? '') )
                ]]
         
             ]],
@@ -198,7 +219,7 @@
                     'id'    => 'id-password',
                     'class' => 'password',
                     'name'  => 'password',
-                    'value' => ((isset($_COOKIE['password'])) ? $_COOKIE['password'] : ($password?? '') )
+                    'value' => ((isset($_COOKIE['password'])) ? $_COOKIE['password'] : ($this->password?? '') )
                 ]]
          
              ]],
