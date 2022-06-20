@@ -147,23 +147,25 @@
     **/ 
     private function wine_portal_error_messages() : self {
 
-        $this->eCatch = UL(function() {
-     
-            $print = '';
-        
-             if( !empty($this->err_username) ) { $print .= ELEM('li' , $this->err_username  , setElemAttr(['class'],['err_username_msg'])); }
-             if( !empty($this->err_password) ) { $print .= ELEM('li' , $this->err_password  , setElemAttr(['class'],['err_password_msg'])); }
-             if( !empty($this->auth_err) )     { $print .= ELEM('li' , $this->auth_err      , setElemAttr(['class'],['err_password_msg'])); }
-        
-            return ($print);
+        if ( !empty( $this->eCatch = UL(function() { $print = [];
+            
+          foreach([ $this->err_username?? '', $this->err_password?? '', $this->auth_err?? ''] as $error) {
+          
+            $print[] = $error? ELEM('li' , $error , setElemAttr(['class'],['err_username_msg'])) : '';
+          
           }
-          , attr  : [ ]
-          , id    : 'id-eCatch_err'
-          , class : 'eCatch_error'
-         
-         );
 
-         return ($this);
+          return (implode("", $print));
+        }
+        , attr  : [ ]
+        , id    : 'id-eCatch_err'
+        , class : 'eCatch_error'
+       
+       ))) {
+
+        return ($this);
+      
+      };
 
     }
 
